@@ -1,4 +1,3 @@
-import Link from "next/link";
 import getUserByID from "@/app/libs/user/getUserByID";
 import CardState from "./cardState";
 import React from "react";

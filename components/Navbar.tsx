@@ -3,7 +3,6 @@ import React from 'react'
 import Link from 'next/link';
 import { useSearchContext } from '@/hooks/searchContext';
 import { useAuthContext } from '@/hooks/authContext';
-
 export default function Navbar() {
   const { searchValue, setSearchValue } = useSearchContext()
   const handlerSearchInput = (e: any) => {

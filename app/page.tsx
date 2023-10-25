@@ -1,6 +1,7 @@
 import Card from "@/app/card"
 import Menu from "./menuState"
 import getEquipments from "./libs/equipment/getEquipments"
+
 export default async function Page() {
   const equipments = await getEquipments()
 

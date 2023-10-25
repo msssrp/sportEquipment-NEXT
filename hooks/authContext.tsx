@@ -1,6 +1,5 @@
 "use client"
 import React, { useState, createContext, useContext, useEffect, ReactNode } from "react";
-
 // Define the type for your user object
 type User = {
   user_id: string;

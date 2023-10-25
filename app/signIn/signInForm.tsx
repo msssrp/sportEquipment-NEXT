@@ -2,7 +2,6 @@
 import signInUser from "../libs/user/signInUser"
 import { useAuthContext } from "@/hooks/authContext"
 import React, { useState } from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 type User = {
   username: string,
@@ -36,8 +35,8 @@ export default function SignInForm() {
       console.log(user)
       if (userData && 'user_id' in userData) {
         login(userData)
-        setIsLoading(false)
         router.push("/")
+        setIsLoading(false)
       } else if (userData && 'error' in userData) {
         setError(userData.error)
         setIsLoading(false)
