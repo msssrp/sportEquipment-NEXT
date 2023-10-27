@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import addEquipment from "../libs/equipment/addEquipment"
 import { useRouter } from "next/navigation"
 import getSession from "@/utils/session"
@@ -16,11 +16,14 @@ type Equipment = {
 const AddForm = () => {
 
   const session = getSession()
-  if (!session) {
-    redirect("/signIn")
-  } else if (session === "notAdmin") {
-    redirect("/notAllow")
-  }
+  useEffect(() => {
+    if (!session) {
+      redirect("/signIn")
+    } else if (session === "notAdmin") {
+      redirect("/notAllow")
+    }
+  }, [session])
+
 
   const [newEquipment, setNewEquipment] = useState<Equipment>({
     name: "",
@@ -55,10 +58,12 @@ const AddForm = () => {
     try {
       const resp = await addEquipment(newEquipment)
       if (resp === "added") {
-        router.push("/")
+        router.prefetch("/")
+        router.back()
         setIsLoading(false)
         return
       } else {
+        console.log(resp)
         setErrorText(resp)
         setIsLoading(false)
       }

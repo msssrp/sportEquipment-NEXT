@@ -1,13 +1,11 @@
 "use client"
 import { useAuthContext } from "@/hooks/authContext"
-import { useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 export default function CardState() {
   const { user } = useAuthContext()
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const selecetedToggle = searchParams.get("toggle")
+
 
   const [isOpen, setIsOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
@@ -25,7 +23,6 @@ export default function CardState() {
   }
 
   return (
-
     <div className="static flex">
       <button onClick={toggleDropDown} className="bg-orange-200 rounded-full px-3 py-1 text-sm font-semibold text-black mr-2 mb-2">
         Borrow

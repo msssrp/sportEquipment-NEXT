@@ -21,7 +21,7 @@ type Repo = {
 
 export default async function getEquipments(): Promise<Repo> {
   const resp = await fetch(`${apiUrl}/equipment`, {
-    cache: 'no-cache',
+    cache: "no-store",
     method: 'GET'
   })
   const data = await resp.json()

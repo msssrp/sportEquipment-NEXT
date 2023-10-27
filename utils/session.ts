@@ -1,20 +1,16 @@
 "use client"
+import { useAuthContext } from "@/hooks/authContext"
 export default function getSession() {
 
-  const userString = localStorage.getItem("user")
-  if (!userString) {
-    return false
-  }
-
-  const user = JSON.parse(userString)
+  const { user } = useAuthContext()
 
   if (!user) {
     return false
-  }
-  if (!user.roles || !user.roles.some((role: any) => role === 'admin')) {
+  } else if (!user.roles) {
+    return false
+  } else if (!user.roles.some((role: any) => role === 'admin')) {
     return "notAdmin"
+  } else {
+    return true
   }
-
-
-  return true
 }

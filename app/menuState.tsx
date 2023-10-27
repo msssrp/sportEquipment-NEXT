@@ -1,38 +1,23 @@
-"use client"
-import { useSearchContext } from "@/hooks/searchContext"
+import Link from "next/link"
+
 export default function Menu() {
-
-  const { setSearchValue } = useSearchContext()
-
-  const handlerAllClick = () => {
-    setSearchValue("")
-  }
-  const handlerAvailableClick = () => {
-    setSearchValue("available")
-  }
-  const handlerPeningClick = () => {
-    setSearchValue("pending")
-  }
-  const handlerInUseClick = () => {
-    setSearchValue("In use")
-  }
 
 
   return (
     <div className='flex items-center justify-center mt-9'>
       <div className="inline-flex">
-        <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full mr-7" onClick={() => handlerAllClick()}>
+        <Link href="/" className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full mr-7">
           All
-        </button>
-        <button className="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-full mr-7" onClick={() => handlerAvailableClick()}>
+        </Link>
+        <Link href="/search?q=available" className="bg-green-300 hover:bg-green-400 text-gray-800 font-bold py-2 px-4 rounded-full mr-7" >
           Available
-        </button>
-        <button className="bg-orange-300 hover:bg-orange-400 text-gray-800 font-bold py-2 px-4 rounded-full mr-7" onClick={() => handlerPeningClick()}>
+        </Link>
+        <Link href="/search?q=pending" className="bg-orange-300 hover:bg-orange-400 text-gray-800 font-bold py-2 px-4 rounded-full mr-7" >
           Pending
-        </button>
-        <button className="bg-red-300 hover:bg-red-400 text-gray-800 font-bold py-2 px-4 rounded-full" onClick={() => handlerInUseClick()}>
+        </Link>
+        <Link href="/search?q=In use" className="bg-red-300 hover:bg-red-400 text-gray-800 font-bold py-2 px-4 rounded-full">
           In use
-        </button>
+        </Link>
       </div>
     </div>
 
