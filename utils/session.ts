@@ -14,3 +14,11 @@ export default function getSession() {
     return true
   }
 }
+
+export function getUserSession() {
+  const { user } = useAuthContext()
+  if (!user) {
+    return false
+  }
+  return true
+}

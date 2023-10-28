@@ -1,5 +1,4 @@
 const apiUrl = process.env.DEV_URL
-import axios from "axios"
 type UserRepo = {
   user_id: string,
   username: string,
@@ -13,8 +12,11 @@ type UserRepo = {
 
 export default async function getUserByID(id: string | undefined): Promise<UserRepo | undefined> {
   if (id) {
-    const resp = await axios.get(`${apiUrl}/users/byID/${id}`)
-    const user = resp.data
+    const resp = await fetch(`${apiUrl}/users/byID/${id}`, {
+      method: "GET",
+      next: { revalidate: 3 }
+    })
+    const user = resp.json()
     return user
   }
   return undefined

@@ -25,8 +25,8 @@ type FetchResult<T> = {
 export default async function getEquipmentBySearch(queryString: string | string[] | undefined): Promise<FetchResult<Repo>> {
   try {
     const resp = await fetch(`${apiUrl}/equipment/search?query=${queryString}`, {
-      cache: "reload",
       method: 'GET',
+      next: { revalidate: 3 }
     });
 
     if (!resp.ok) {
