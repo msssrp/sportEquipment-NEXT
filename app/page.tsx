@@ -3,9 +3,9 @@ import Menu from "./menuState"
 import getEquipments from "./libs/equipment/getEquipments"
 import { Suspense } from "react"
 import Loading from "./loading"
+
 export default async function Page() {
   const equipments = await getEquipments()
-
   return (
     <>
       <Menu />
@@ -22,4 +22,3 @@ export default async function Page() {
     </>
   )
 }
-

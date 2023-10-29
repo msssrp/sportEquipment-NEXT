@@ -5,7 +5,7 @@ export default async function Page() {
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 mt-4">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img className="mx-auto h-[150px] w-auto" src="https://cdn.freebiesupply.com/logos/large/2x/sports-logo-png-transparent.png" alt="Your Company" />
+        <img className="mx-auto h-[150px] w-auto" src="https://cdn.worldvectorlogo.com/logos/sport-3.svg" alt="Your Company" />
         <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
       </div>
 

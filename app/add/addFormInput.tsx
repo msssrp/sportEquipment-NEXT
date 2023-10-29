@@ -58,8 +58,7 @@ const AddForm = () => {
     try {
       const resp = await addEquipment(newEquipment)
       if (resp === "added") {
-        router.prefetch("/")
-        router.back()
+        router.push("/")
         setIsLoading(false)
         return
       } else {

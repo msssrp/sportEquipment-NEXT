@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="w-full max-w-screen-xl mx-auto md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <a href="/" className="flex items-center mb-4 sm:mb-0">
-            <img src="https://cdn.freebiesupply.com/logos/large/2x/sports-logo-png-transparent.png" className="h-[120px] mr-3" alt="Flowbite Logo" />
+            <img src="https://cdn.worldvectorlogo.com/logos/sport-3.svg" className="h-[120px] mr-3" alt="Sport Equipment Logo" />
           </a>
           <ul className="flex flex-wrap items-center text-sm font-medium text-gray-500 sm:mb-0 ">
             <li>

@@ -26,7 +26,7 @@ export default async function getEquipmentBySearch(queryString: string | string[
   try {
     const resp = await fetch(`${apiUrl}/equipment/search?query=${queryString}`, {
       method: 'GET',
-      next: { revalidate: 3 }
+      cache: "no-store"
     });
 
     if (!resp.ok) {

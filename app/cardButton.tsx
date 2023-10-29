@@ -19,10 +19,8 @@ const CardButton: React.FC<data> = ({ equipmentID }) => {
       const deleteRes = await deleteEquipment(equipmentID)
       if (deleteRes !== undefined) {
         router.refresh()
-        setTimeout(() => {
-          window.location.reload()
-          setIsLoading(false)
-        }, 4500)
+        window.location.reload()
+        setIsLoading(false)
       } else {
         console.log(deleteRes)
         setIsLoading(false)

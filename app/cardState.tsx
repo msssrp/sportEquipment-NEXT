@@ -56,9 +56,7 @@ const CardState: React.FC<Props> = ({ equipmentID }) => {
     }
     if (resp.result) {
       router.refresh()
-      setTimeout(() => {
-        window.location.reload()
-      }, 5500)
+      window.location.reload()
     }
   }
 
