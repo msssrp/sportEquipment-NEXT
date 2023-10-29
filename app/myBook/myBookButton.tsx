@@ -1,13 +1,19 @@
 "use client"
 import deleteBorrowing from "../libs/borrow/deleteBorrowing"
 import { useState } from "react"
-
+import { useAuthContext } from "@/hooks/authContext"
+import { useRouter } from "next/navigation"
 type MyBookingBtn = {
   borrowingID: string,
   equipmentID: string
 }
 
 const MyBookButton: React.FC<MyBookingBtn> = ({ borrowingID, equipmentID }) => {
+  const router = useRouter()
+  const { user } = useAuthContext()
+  if (!user) {
+    router.push("/signIn")
+  }
   const [error, setError] = useState("")
   const [isCancelLoading, setIsCancelLoading] = useState(false)
   const handleOnClickDelete = async () => {

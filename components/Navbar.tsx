@@ -60,7 +60,7 @@ export default function Navbar() {
               )}
               {user && <>
                 <li className="nav-item">
-                  <Link className="text-gray-900 hover:text-gray-400" href={`/myBook?id=${user.user_id}`}>
+                  <Link className="text-gray-900 hover:text-gray-400" href={`/myBook?id=${user.user_id}&session=${isAuth ? "ture" : "false"}`}>
                     My Book
                   </Link>
                 </li>
