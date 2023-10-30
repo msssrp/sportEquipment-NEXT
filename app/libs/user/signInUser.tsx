@@ -6,30 +6,32 @@ type User = {
 }
 
 type UserRepo = {
-  user_id: string,
-  username: string,
-  email: string,
-  f_name: string,
-  l_name: string,
-  phone_number: string,
-  address: string,
-  roles: string[]
+  session: string
+  user: {
+    user_id: string,
+    username: string,
+    email: string,
+    f_name: string,
+    l_name: string,
+    phone_number: string,
+    address: string,
+    roles: string[]
+  }
+}
+type SignInResponse<T> = {
+  error?: string,
+  result?: T
 }
 
-type ErrorData = {
-  error: string
-}
-
-type SignInResponse = UserRepo | ErrorData
-
-export default async function signInUser(user: User): Promise<SignInResponse | undefined> {
+export default async function signInUser(user: User): Promise<SignInResponse<UserRepo>> {
   try {
     const resp = await axios.post(`${apiUrl}/users/auth/signIn`, user)
     console.log(apiUrl)
-    if (resp.status !== 200 || resp.data.error) {
+    if (resp.status !== 200) {
       return { error: resp.data.error }
     }
-    document.cookie = `token=${resp.data.token}`
+    document.cookie = `refresh_token=${resp.data.refresh_token}`
+    document.cookie = `token=${resp.data.access_token}`
     try {
       const tokenCookie = document.cookie.split(';').find((c) => c.trim().startsWith('token='))
       if (tokenCookie) {
@@ -38,14 +40,17 @@ export default async function signInUser(user: User): Promise<SignInResponse | u
         if (tokenValue) {
           const token = tokenValue.trim();
 
-          const userDataResp = await axios.get<UserRepo>(`${apiUrl}/users/byId`, {
+          const userDataResp = await fetch(`${apiUrl}/users/byId`, {
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
           });
-
-          return userDataResp.data
+          const dataResp = await userDataResp.json()
+          if (userDataResp.status === 401) {
+            return { error: `${dataResp.error}` }
+          }
+          return { result: dataResp }
         } else {
           return { error: "token value is empty" }
         }

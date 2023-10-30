@@ -33,11 +33,14 @@ export default function SignInForm() {
     try {
       const userData = await signInUser(user)
       console.log(user)
-      if (userData && 'user_id' in userData) {
-        login(userData)
+      if (userData.result) {
+        login(userData.result)
         router.push("/")
         setIsLoading(false)
-      } else if (userData && 'error' in userData) {
+      } else if (userData.error === "Token expired") {
+        setError("Pleast login again")
+        setIsLoading(false)
+      } else if (userData.error) {
         setError(userData.error)
         setIsLoading(false)
       } else {

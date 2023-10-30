@@ -9,7 +9,7 @@ type Props = {
 }
 
 const CardState: React.FC<Props> = ({ equipmentID }) => {
-  const { user } = useAuthContext()
+  const { user, logout } = useAuthContext()
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -44,20 +44,35 @@ const CardState: React.FC<Props> = ({ equipmentID }) => {
   const handleOnBorrow = async () => {
     setIsLoading(true)
     const newBorrowData = {
-      user_id: user?.user_id,
+      user_id: user?.user.user_id,
       equipment_id: equipmentID,
       borrow_date: borrowDate,
       return_date: returnDate,
     }
     const resp = await addBorrow(newBorrowData)
-    if (resp.error) {
-      setError(resp.error)
-      return setIsLoading(false)
-    }
-    if (resp.result) {
+    if (resp.result === "borrowed") {
       router.refresh()
       window.location.reload()
+    } else if (resp.error === "token is expired") {
+      setError("session is out of date please log in again")
+      setTimeout(() => {
+        logout()
+        document.cookie = "token=; Max-Age=0;"
+        document.cookie = "refresh_token=; Max-Age=0;"
+        router.push("/signIn")
+        setIsLoading(false)
+      }, 3500)
+    } else if (resp.error) {
+      setError("session is out of date please log in again")
+      setTimeout(() => {
+        logout()
+        document.cookie = "token=; Max-Age=0;"
+        document.cookie = "refresh_token=; Max-Age=0;"
+        router.push("/signIn")
+        setIsLoading(false)
+      }, 3500)
     }
+
   }
 
   return (

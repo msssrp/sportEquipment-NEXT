@@ -1,8 +1,14 @@
 import MyBookState from "./myBookState"
 import getBorrowsByUserID from "../libs/borrow/getBorrowsByUserID"
+import verifySession from "../libs/user/verifySession"
 import { redirect } from "next/navigation"
 export default async function Page({ searchParams }: { searchParams: { [key: string]: string[] | string | undefined } }) {
-  if (searchParams.session == "false" || !searchParams.session) {
+  if (searchParams.session) {
+    const resp = await verifySession(searchParams.session)
+    if (resp.error) {
+      redirect("/signIn")
+    }
+  } else {
     redirect("/signIn")
   }
   if (!searchParams.id) {

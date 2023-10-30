@@ -23,6 +23,7 @@ export default function Navbar() {
   const handleLogout = () => {
     logout()
     document.cookie = `token=; Max-Age=0;`
+    document.cookie = `refresh_token=; Max-Age=0;`
   }
 
   const router = useRouter()
@@ -45,7 +46,7 @@ export default function Navbar() {
           <ul className="flex space-x-4">
 
             {isAuth ? <>
-              {user && user.roles && user.roles.some(role => role === 'admin') && (<>
+              {user && user.user.roles && user.user.roles.some(role => role === 'admin') && (<>
                 <li className="nav-item">
                   <Link className="text-gray-900 hover:text-gray-400" href="/bookings">
                     Bookings
@@ -60,7 +61,7 @@ export default function Navbar() {
               )}
               {user && <>
                 <li className="nav-item">
-                  <Link className="text-gray-900 hover:text-gray-400" href={`/myBook?id=${user.user_id}&session=${isAuth ? "ture" : "false"}`}>
+                  <Link className="text-gray-900 hover:text-gray-400" href={`/myBook?id=${user.user.user_id}&session=${user.session}`}>
                     My Book
                   </Link>
                 </li>
@@ -91,13 +92,6 @@ export default function Navbar() {
                 </Link>
               </li>
             </>}
-
-
-
-
-
-
-
 
           </ul>
           <form className="flex items-center" role='search'>

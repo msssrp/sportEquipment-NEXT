@@ -1,37 +1,65 @@
-import axios from "axios"
 
 const apiUrl = process.env.DEV_URL || "http://localhost:8080"
 
+type RequestResponse = {
+  error?: string,
+  result?: string
+}
 
-export default async function deleteEquipment(equipmentID: string | undefined): Promise<string | undefined> {
+export default async function deleteEquipment(equipmentID: string | undefined): Promise<RequestResponse> {
   try {
-    const tokenCookie = document.cookie.split(';').find((c) => c.trim().startsWith('token='))
-    if (tokenCookie) {
-      const tokenValue = tokenCookie.split('=')[1];
-      if (tokenValue) {
-        const token = tokenValue.trim();
-        const resp = await axios.delete(`${apiUrl}/equipment/${equipmentID}`, {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        })
-        if (resp.status !== 200) {
-          return resp.data.error
-        }
-      } else {
-        return "token value is empty"
-      }
-    } else {
-      return "token value is not found"
+    const tokenCookie = document.cookie.split(';').find((c) => c.trim().startsWith('token='));
+    if (!tokenCookie) {
+      return { error: "token is not found" }
     }
-  } catch (error: any) {
-    if (error.response && error.response.status === 401) {
-      return "Invalid token ensure that you already login"
-    } else {
-      return "An error occurred while processing your request"
-    }
-  }
 
-  return "deleted"
+    const tokenValue = tokenCookie.split('=')[1]?.trim();
+    if (!tokenValue) {
+      return { error: 'Token has no value' };
+    }
+
+    const token = tokenValue;
+    const resp = await fetch(`${apiUrl}/equipment/${equipmentID}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      method: "DELETE"
+    })
+    const serverRes = await resp.json()
+    if (!resp.ok) {
+      if (resp.status === 401) {
+        const refreshToken = document.cookie.split(';').find((c) => c.trim().startsWith('refresh_token'))?.split('=')[1]?.trim();
+        if (!refreshToken) {
+          return { error: 'Refresh token not found' };
+        }
+
+        const refreshTokenResp = await fetch(`${apiUrl}/users/auth/refreshToken`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        });
+
+        if (!refreshTokenResp.ok) {
+          if (refreshTokenResp.status === 401) {
+            return { error: "token is expired" }
+          }
+        }
+
+        const serverResp = await refreshTokenResp.json();
+        document.cookie = 'token=;';
+        document.cookie = `token=${serverResp.newAccessToken}`;
+
+
+        return await deleteEquipment(equipmentID)
+      }
+      if (resp.status !== 200) {
+        return { error: `${serverRes.error}` }
+      }
+    }
+    return { result: "deleted" }
+  } catch (error) {
+    return { error: `${error}` }
+  }
 }

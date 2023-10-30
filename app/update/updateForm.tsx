@@ -2,6 +2,7 @@
 import { useState } from "react"
 import updateEquipment from "../libs/equipment/updateEquipment"
 import { useRouter } from "next/navigation"
+import { useAuthContext } from "@/hooks/authContext"
 type Equipment = {
   name: string,
   category: string,
@@ -36,16 +37,27 @@ const UpdateForm: React.FC<propsData> = ({ id, equipment }) => {
     }));
   };
   const router = useRouter()
+  const { logout } = useAuthContext()
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
     const resp = await updateEquipment(id, newEquipment)
-    if (resp.error) {
-      return setError(resp.error)
+    if (resp.result === "updated") {
+      router.push("/")
+    } else if (resp.error === "token is expired") {
+      setError("session is out of date please log in again")
+      setTimeout(() => {
+        logout()
+        document.cookie = "token=; Max-Age=0;"
+        document.cookie = "refresh_token=; Max-Age=0;"
+        router.push("/signIn")
+        setIsLoading(false)
+      }, 3500)
+    } else if (resp.error) {
+      setError(resp.error)
+      setIsLoading(false)
     }
-    if (resp.result) {
-      router.back()
-    }
+
   }
 
   return (

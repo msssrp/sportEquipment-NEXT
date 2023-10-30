@@ -1,9 +1,8 @@
 "use client"
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import addEquipment from "../libs/equipment/addEquipment"
 import { useRouter } from "next/navigation"
-import getSession from "@/utils/session"
-import { redirect } from "next/navigation"
+import { useAuthContext } from "@/hooks/authContext"
 type Equipment = {
   name: string,
   category: string,
@@ -14,16 +13,6 @@ type Equipment = {
 }
 
 const AddForm = () => {
-
-  const session = getSession()
-  useEffect(() => {
-    if (!session) {
-      redirect("/signIn")
-    } else if (session === "notAdmin") {
-      redirect("/notAllow")
-    }
-  }, [session])
-
 
   const [newEquipment, setNewEquipment] = useState<Equipment>({
     name: "",
@@ -44,6 +33,8 @@ const AddForm = () => {
     }));
   };
 
+  const { logout } = useAuthContext()
+
   const handleOnsubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true)
@@ -57,13 +48,21 @@ const AddForm = () => {
     }
     try {
       const resp = await addEquipment(newEquipment)
-      if (resp === "added") {
+      if (resp.result === "added") {
         router.push("/")
         setIsLoading(false)
         return
-      } else {
-        console.log(resp)
-        setErrorText(resp)
+      } else if (resp.error === "token is expired") {
+        setErrorText("session is out of date please log in again")
+        setTimeout(() => {
+          logout()
+          document.cookie = "token=; Max-Age=0;"
+          document.cookie = "refresh_token=; Max-Age=0;"
+          router.push("/signIn")
+          setIsLoading(false)
+        }, 3500)
+      } else if (resp.error) {
+        setErrorText(resp.error)
         setIsLoading(false)
       }
     } catch (error) {

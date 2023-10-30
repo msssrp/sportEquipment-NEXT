@@ -10,21 +10,35 @@ type MyBookingBtn = {
 
 const MyBookButton: React.FC<MyBookingBtn> = ({ borrowingID, equipmentID }) => {
   const router = useRouter()
-  const { user } = useAuthContext()
-  if (!user) {
-    router.push("/signIn")
-  }
+  const { logout } = useAuthContext()
+
   const [error, setError] = useState("")
   const [isCancelLoading, setIsCancelLoading] = useState(false)
   const handleOnClickDelete = async () => {
     setIsCancelLoading(true)
     const resp = await deleteBorrowing(borrowingID, equipmentID)
-    if (resp.error) {
-      setError(resp.error)
-      return setIsCancelLoading(false)
+    if (resp.result === "deleted") {
+      window.location.reload()
+      setIsCancelLoading(false)
+    } else if (resp.error === "token is expired") {
+      setError("session is out of date please log in again")
+      setTimeout(() => {
+        logout()
+        document.cookie = "token=; Max-Age=0;"
+        document.cookie = "refresh_token=; Max-Age=0;"
+        router.push("/signIn")
+        setIsCancelLoading(false)
+      }, 3500)
+    } else if (resp.error) {
+      setError("session is out of date please log in again")
+      setTimeout(() => {
+        logout()
+        document.cookie = "token=; Max-Age=0;"
+        document.cookie = "refresh_token=; Max-Age=0;"
+        router.push("/signIn")
+        setIsCancelLoading(false)
+      }, 3500)
     }
-    window.location.reload()
-    setIsCancelLoading(false)
   }
   return (
     <>

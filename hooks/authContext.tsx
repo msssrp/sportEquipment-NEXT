@@ -2,14 +2,17 @@
 import React, { useState, createContext, useContext, useEffect, ReactNode } from "react";
 // Define the type for your user object
 type User = {
-  user_id: string;
-  username: string;
-  email: string;
-  f_name: string;
-  l_name: string;
-  phone_number: string;
-  address: string;
-  roles: string[];
+  session: string
+  user: {
+    user_id: string;
+    username: string;
+    email: string;
+    f_name: string;
+    l_name: string;
+    phone_number: string;
+    address: string;
+    roles: string[];
+  }
 };
 
 type AuthContextType = {
