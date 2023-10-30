@@ -1,5 +1,12 @@
 import AddForm from "./addFormInput"
-async function page() {
+import { redirect } from "next/navigation"
+export default async function page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined | boolean } }) {
+  if (searchParams.session === false) {
+    redirect("/signIn")
+  }
+  if (!searchParams.session) {
+    redirect("/signIn")
+  }
   return (
     <div className="flex mt-[20px]">
       <main className={`flex-1 "h-full"}`}>
@@ -14,4 +21,4 @@ async function page() {
   )
 }
 
-export default page
+

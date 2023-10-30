@@ -1,7 +1,10 @@
 import BookingState from "./bookingState"
 import getBorrowings from "../libs/borrow/getBorrowings"
-export default async function Page() {
-
+import { redirect } from "next/navigation"
+export default async function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | boolean | undefined } }) {
+  if (!searchParams.session || searchParams.sesion === false) {
+    redirect("/signIn")
+  }
   const borrowings = await getBorrowings()
 
   return (

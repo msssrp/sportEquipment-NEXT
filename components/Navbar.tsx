@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/hooks/authContext';
 export default function Navbar() {
-
+  const router = useRouter()
   const [searchValue, setSearchValue] = useState("")
 
   const { user, logout } = useAuthContext()
@@ -24,9 +24,10 @@ export default function Navbar() {
     logout()
     document.cookie = `token=; Max-Age=0;`
     document.cookie = `refresh_token=; Max-Age=0;`
+    router.push("/signIn")
   }
 
-  const router = useRouter()
+
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -46,14 +47,14 @@ export default function Navbar() {
           <ul className="flex space-x-4">
 
             {isAuth ? <>
-              {user && user.user.roles && user.user.roles.some(role => role === 'admin') && (<>
+              {user && user.roles && user.roles.some(role => role === 'admin') && (<>
                 <li className="nav-item">
-                  <Link className="text-gray-900 hover:text-gray-400" href="/bookings">
+                  <Link className="text-gray-900 hover:text-gray-400" href={`/bookings?session=${isAuth}`}>
                     Bookings
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="text-gray-900 hover:text-gray-400" href="/add">
+                  <Link className="text-gray-900 hover:text-gray-400" href={`/add?session=${isAuth}`}>
                     Add
                   </Link>
                 </li>
@@ -61,12 +62,12 @@ export default function Navbar() {
               )}
               {user && <>
                 <li className="nav-item">
-                  <Link className="text-gray-900 hover:text-gray-400" href={`/myBook?id=${user.user.user_id}&session=${user.session}`}>
+                  <Link className="text-gray-900 hover:text-gray-400" href={`/myBook?id=${user.user_id}&session=${isAuth}`}>
                     My Book
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="text-gray-900 hover:text-gray-400" href="/profile">
+                  <Link className="text-gray-900 hover:text-gray-400" href={`/profile`}>
                     Profile
                   </Link>
                 </li>
