@@ -1,5 +1,6 @@
 import axios from "axios"
 const apiUrl = process.env.DEV_URL || "http://localhost:8080"
+import { cookies } from "next/headers"
 type User = {
   username: string,
   password: string
@@ -46,6 +47,11 @@ export default async function signInUser(user: User): Promise<SignInResponse<Use
           const dataResp = await userDataResp.json()
           if (userDataResp.status === 401) {
             return { error: `${dataResp.error}` }
+          }
+          if (dataResp.roles && dataResp.roles.includes("admin")) {
+            document.cookie = `pms=true`
+          } else if (dataResp.roles && dataResp.roles.includes("user")) {
+            document.cookie = `pms=false`
           }
           return { result: dataResp }
         } else {

@@ -1,10 +1,13 @@
 import AddForm from "./addFormInput"
 import { redirect } from "next/navigation"
-export default async function page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined | boolean } }) {
-  if (searchParams.session === false) {
+import { cookies } from "next/headers"
+export default async function page() {
+  const cookieStore = cookies()
+  const pms = cookieStore.get("pms")
+  if (!pms) {
     redirect("/signIn")
   }
-  if (!searchParams.session) {
+  if (pms.value === "false") {
     redirect("/signIn")
   }
   return (

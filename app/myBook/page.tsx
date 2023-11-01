@@ -1,14 +1,14 @@
 import MyBookState from "./myBookState"
 import getBorrowsByUserID from "../libs/borrow/getBorrowsByUserID"
 import { redirect } from "next/navigation"
+import { cookies } from "next/headers"
 export default async function Page({ searchParams }: { searchParams: { [key: string]: string[] | boolean | string | undefined } }) {
   if (!searchParams.id) {
     redirect("/signIn")
   }
-  if (searchParams.session === false) {
-    redirect("/signIn")
-  }
-  if (!searchParams.session) {
+  const cookieStore = cookies()
+  const pms = cookieStore.get("pms")
+  if (!pms) {
     redirect("/signIn")
   }
 

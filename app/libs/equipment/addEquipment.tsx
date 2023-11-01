@@ -1,5 +1,4 @@
 const apiUrl = process.env.DEV_URL || "http://localhost:8080"
-
 type Equipment = {
   name: string,
   category: string,
@@ -33,7 +32,7 @@ export default async function addEquipment(equipment: Equipment): Promise<Reques
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
-      }
+      },
     })
     const serverResp = await resp.json()
     if (!resp.ok) {

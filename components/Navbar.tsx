@@ -24,6 +24,7 @@ export default function Navbar() {
     logout()
     document.cookie = `token=; Max-Age=0;`
     document.cookie = `refresh_token=; Max-Age=0;`
+    document.cookie = `pms=; Max-Age=0;`
     router.push("/signIn")
   }
 
@@ -49,12 +50,12 @@ export default function Navbar() {
             {isAuth ? <>
               {user && user.roles && user.roles.some(role => role === 'admin') && (<>
                 <li className="nav-item">
-                  <Link className="text-gray-900 hover:text-gray-400" href={`/bookings?session=${isAuth}`}>
+                  <Link className="text-gray-900 hover:text-gray-400" href={`/bookings`}>
                     Bookings
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="text-gray-900 hover:text-gray-400" href={`/add?session=${isAuth}`}>
+                  <Link className="text-gray-900 hover:text-gray-400" href={`/add`}>
                     Add
                   </Link>
                 </li>
@@ -62,7 +63,7 @@ export default function Navbar() {
               )}
               {user && <>
                 <li className="nav-item">
-                  <Link className="text-gray-900 hover:text-gray-400" href={`/myBook?id=${user.user_id}&session=${isAuth}`}>
+                  <Link className="text-gray-900 hover:text-gray-400" href={`/myBook?id=${user.user_id}`}>
                     My Book
                   </Link>
                 </li>

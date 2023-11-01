@@ -44,7 +44,7 @@ const CardState: React.FC<Props> = ({ equipmentID }) => {
   const handleOnBorrow = async () => {
     setIsLoading(true)
     const newBorrowData = {
-      user_id: user?.user.user_id,
+      user_id: user?.user_id,
       equipment_id: equipmentID,
       borrow_date: borrowDate,
       return_date: returnDate,

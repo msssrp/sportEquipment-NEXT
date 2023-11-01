@@ -1,8 +1,14 @@
 import BookingState from "./bookingState"
 import getBorrowings from "../libs/borrow/getBorrowings"
 import { redirect } from "next/navigation"
-export default async function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | boolean | undefined } }) {
-  if (!searchParams.session || searchParams.sesion === false) {
+import { cookies } from "next/headers"
+export default async function Page() {
+  const cookieStore = cookies()
+  const pms = cookieStore.get("pms")
+  if (!pms) {
+    redirect("/signIn")
+  }
+  if (pms.value === "false") {
     redirect("/signIn")
   }
   const borrowings = await getBorrowings()

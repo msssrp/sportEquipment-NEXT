@@ -1,28 +1,11 @@
-const apiUrl = process.env.DEV_URL || "http://localhost:8080"
+import { NextResponse, NextRequest } from "next/server";
+import { parseCookies } from "nookies";
 
-type UserRoles = {
-  roles: string[]
-}
+export default async function verifyUserRoles(req: NextRequest) {
+  const { sessionToken } = parseCookies({ req })
 
-type RequestResponse<T> = {
-  error?: string,
-  result?: T
-}
-
-export default async function verifyUserRoles(userID: string | string[] | undefined): Promise<RequestResponse<UserRoles>> {
-  try {
-    const resp = await fetch(`${apiUrl}/users/auth/userRoles/${userID}`, {
-      method: "GET"
-    })
-    const serverResp = await resp.json()
-    if (!resp.ok) {
-      return { error: `${serverResp.error}` }
-    }
-    if (resp.status !== 200) {
-      return { error: `${serverResp.error}` }
-    }
-    return { result: serverResp }
-  } catch (error) {
-    return { error: `${error}` }
+  if (sessionToken) {
+    return true
   }
+  return false
 }
