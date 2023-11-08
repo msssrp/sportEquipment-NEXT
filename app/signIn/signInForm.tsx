@@ -36,7 +36,6 @@ export default function SignInForm() {
       if (userData.result) {
         login(userData.result)
         router.push("/")
-        setIsLoading(false)
       } else if (userData.error === "Token expired") {
         setError("Pleast login again")
         setIsLoading(false)

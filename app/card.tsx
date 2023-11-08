@@ -53,7 +53,6 @@ const Card: React.FC<{ data: Equipment }> = async ({ data }) => {
               <p className="inline-block bg-orange-300 rounded-full px-3 py-1 text-sm font-semibold text-black mr-2 mb-2" >{data.equipment.status} 📖</p></>
               : <><p className="inline-block bg-[#ADD8E6] rounded-full px-3 py-1 text-sm font-semibold text-black mr-2 mb-2" >In use by Mr.{user?.username}</p>
                 <p className="inline-block bg-[#ADD8E6] rounded-full px-3 py-1 text-sm font-semibold text-black mr-2 mb-2" >{data.equipment.days_left} days remain 🕒</p></>}
-
           </>
           : <CardState equipmentID={data.equipment.equipment_id} />
         }
