@@ -1,12 +1,17 @@
-"use client"
-import { useAuthContext } from "@/hooks/authContext";
-import { useRouter } from "next/navigation";
-export default function Page() {
-  const { user } = useAuthContext()
-  const router = useRouter()
-  if (!user) {
-    router.push("/signIn")
+import { cookies } from "next/headers"
+import getUserByID from "../libs/user/getUserByID"
+import { redirect } from "next/navigation"
+export default async function Page() {
+  const cookieStore = cookies()
+  const userId = cookieStore.get("uid")
+  const pms = cookieStore.get("pms")
+  if (!pms) {
+    redirect("/signIn")
   }
+  if (!userId) {
+    redirect("/signIn")
+  }
+  const user = await getUserByID(userId.value)
   return (
     <div className="flex items-center mt-[100px] justify-center mb-[150px]">
       <div className="border w-[400px]">

@@ -2,17 +2,18 @@ import MyBookState from "./myBookState"
 import getBorrowsByUserID from "../libs/borrow/getBorrowsByUserID"
 import { redirect } from "next/navigation"
 import { cookies } from "next/headers"
-export default async function Page({ searchParams }: { searchParams: { [key: string]: string[] | boolean | string | undefined } }) {
-  if (!searchParams.id) {
-    redirect("/signIn")
-  }
+export default async function Page() {
+
   const cookieStore = cookies()
   const pms = cookieStore.get("pms")
   if (!pms) {
     redirect("/signIn")
   }
-
-  const borrows = await getBorrowsByUserID(searchParams.id)
+  const userId = cookieStore.get("uid")
+  if (!userId) {
+    redirect("/signIn")
+  }
+  const borrows = await getBorrowsByUserID(userId.value)
   return (
     <main className="h-screen mt-[20px]">
       <div className="flex flex-col justify-center items-center h-full bg-white">

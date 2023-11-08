@@ -15,7 +15,7 @@ type RequestResult<T> = {
   result?: T
 }
 
-export default async function getBorrowsByUserID(userID: string | string[] | boolean | undefined): Promise<RequestResult<Borrow>> {
+export default async function getBorrowsByUserID(userID: string): Promise<RequestResult<Borrow>> {
   try {
     const resp = await fetch(`${apiUrl}/borrowing/getByUser/${userID}`, {
       method: "GET",

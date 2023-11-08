@@ -53,6 +53,7 @@ export default async function signInUser(user: User): Promise<SignInResponse<Use
           } else if (dataResp.roles && dataResp.roles.includes("user")) {
             document.cookie = `pms=false`
           }
+          document.cookie = `uid=${dataResp.user_id}`
           return { result: dataResp }
         } else {
           return { error: "token value is empty" }

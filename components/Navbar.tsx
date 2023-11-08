@@ -25,6 +25,7 @@ export default function Navbar() {
     document.cookie = `token=; Max-Age=0;`
     document.cookie = `refresh_token=; Max-Age=0;`
     document.cookie = `pms=; Max-Age=0;`
+    document.cookie = `uid=; Max-Age=0`
     router.push("/signIn")
   }
 
@@ -63,7 +64,7 @@ export default function Navbar() {
               )}
               {user && <>
                 <li className="nav-item">
-                  <Link className="text-gray-900 hover:text-gray-400" href={`/myBook?id=${user.user_id}`}>
+                  <Link className="text-gray-900 hover:text-gray-400" href={`/myBook`}>
                     My Book
                   </Link>
                 </li>
