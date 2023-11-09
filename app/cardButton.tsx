@@ -21,7 +21,6 @@ const CardButton: React.FC<data> = ({ equipmentID }) => {
       if (deleteRes.result === "deleted") {
         router.refresh()
         window.location.reload()
-        setIsLoading(false)
       } else if (deleteRes.error === "token is expired") {
         setError("session is out of date please log in again")
         setTimeout(() => {

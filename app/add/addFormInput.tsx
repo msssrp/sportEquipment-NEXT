@@ -50,7 +50,6 @@ const AddForm = () => {
       const resp = await addEquipment(newEquipment)
       if (resp.result === "added") {
         router.push("/")
-        setIsLoading(false)
         return
       } else if (resp.error === "token is expired") {
         setErrorText("session is out of date please log in again")
