@@ -2,7 +2,6 @@ import getUserByID from "@/app/libs/user/getUserByID";
 import CardState from "./cardState";
 import React from "react";
 import dynamic from "next/dynamic";
-
 const CardButton = dynamic(() => import("./cardButton"), { ssr: false })
 type Equipment = {
   equipment: {

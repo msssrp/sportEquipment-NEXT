@@ -22,7 +22,7 @@ export default async function Page() {
           <div className="p-2">
             <h3 className="text-center text-xl text-gray-900 font-medium leading-8">{user?.f_name} {user?.l_name}</h3>
             <div className="text-center text-gray-400 text-xs font-semibold">
-              <p>{user?.roles.map((role) => <p>{role}</p>)}</p>
+              <p>{user?.roles.map((role) => <p key={user.user_id}>{role}</p>)}</p>
             </div>
             <table className="text-xs my-3 flex flex-row justify-center items-center">
               <tbody><tr>
