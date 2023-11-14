@@ -26,6 +26,8 @@ const CardButton: React.FC<data> = ({ equipmentID }) => {
         setTimeout(() => {
           logout()
           document.cookie = "token=; Max-Age=0;"
+          document.cookie = "uid=; Max-Age=0;"
+          document.cookie = "pms=; Max-Age=0;"
           document.cookie = "refresh_token=; Max-Age=0;"
           router.push("/signIn")
           setIsLoading(false)

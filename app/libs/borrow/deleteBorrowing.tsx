@@ -1,5 +1,5 @@
 
-const apiUrl = process.env.NEXT_PUBLIC_PUBLIC_API_URL
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
 type ResponseResult = {
   error?: string,

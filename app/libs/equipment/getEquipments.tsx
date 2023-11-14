@@ -1,4 +1,4 @@
-const apiUrl = process.env.NEXT_PUBLIC_PUBLIC_API_URL
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
 type Repo = {
   equipment: {

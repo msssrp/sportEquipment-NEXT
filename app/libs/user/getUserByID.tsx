@@ -1,4 +1,4 @@
-const apiUrl = process.env.DEV_URL
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
 type UserRepo = {
   user_id: string,
   username: string,
